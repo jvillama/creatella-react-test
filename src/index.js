@@ -180,7 +180,7 @@ class ProductsContainer extends Component {
         products: [],
         nextPage: 1,
         end: false,
-        ad: (parseInt(Math.random() * 10, 10) % 10) + 1,
+        adNum: (parseInt(Math.random() * 10, 10) % 10) + 1,
         adCount: 0
       });
       this.startFetching();
