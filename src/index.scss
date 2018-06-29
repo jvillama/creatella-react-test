@@ -1,0 +1,19 @@
+@import 'globals';
+
+@include react-md-everything;
+
+.md-card-title--primary {
+  padding-top: 6px;
+}
+
+.md-card-title {
+  padding: 6px 12px 0;
+}
+
+.md-card-text {
+  padding: 2px 12px;
+}
+
+.md-card-text:last-child {
+  padding-bottom: 12px;
+}
