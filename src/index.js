@@ -12,8 +12,8 @@ class ProductsContainer extends Component {
     this.state = {
       loading: false,
       nextPage: 1,
-      limit: 10,
-      sortBy: "price",
+      limit: 20,
+      sortBy: "",
       displayedProducts: [],
       products: [],
       end: false,
@@ -28,6 +28,7 @@ class ProductsContainer extends Component {
     this.startFetching = this.startFetching.bind(this);
     this.abortFetching = this.abortFetching.bind(this);
     this.recurseFetch = this.recurseFetch.bind(this);
+    this.getAdProduct = this.getAdProduct.bind(this);
   }
   abortController = new window.AbortController();
   abortFetching() {
@@ -65,14 +66,35 @@ class ProductsContainer extends Component {
     console.log("aborted");
     window.removeEventListener("scroll", this.handleScroll);
   }
+  getAdProduct() {
+    const adProduct = {
+      media: Math.floor(Math.random() * 1000),
+      adNum: this.state.adNum
+    };
+    let rand = (parseInt(Math.random() * 10, 10) % 10) + 1;
+    while (true) {
+      if (this.state.adNum !== rand) {
+        this.setState({ adNum: rand });
+        break;
+      }
+      rand = (parseInt(Math.random() * 10, 10) % 10) + 1;
+    }
+    return adProduct
+  }
   fetchProducts(page, limit, sort) {
     const products_url = `${products_base_url}?_page=${page}&_limit=${limit}&_sort=${sort}`;
     return fetch(products_url, { signal: this.abortController.signal })
       .then(res => res.json())
       .then(myJson => {
         if (myJson.length > 0) {
+          // Load with ad
+          const adProduct = this.getAdProduct()
           this.setState(prevState => ({
-            products: prevState.products.concat(myJson),
+            products: prevState.products.concat(
+              myJson,
+              adProduct
+            ),
+            adCount: prevState.adCount + 1,
             nextPage: page + 1
           }));
         } else {
@@ -94,50 +116,21 @@ class ProductsContainer extends Component {
   displayNext() {
     const displayLength = this.state.displayedProducts.length;
     const productLength = this.state.products.length;
-    const indexFix = displayLength - this.state.adCount;
-    const nextSlice = this.state.products.slice(
-      indexFix,
-      indexFix + this.state.limit
-    );
 
-    // If slice not empty
+    const nextSlice = this.state.products.slice(
+      displayLength,
+      displayLength + 21
+    )
     if (nextSlice.length > 0) {
-      if (nextSlice.length === this.state.limit) {
-        if ((indexFix + nextSlice.length) % 20 === 0) {
-          const adProduct = {
-            media: Math.floor(Math.random() * 1000),
-            adNum: this.state.adNum
-          };
-          let rand = (parseInt(Math.random() * 10, 10) % 10) + 1;
-          while (true) {
-            if (this.state.adNum !== rand) {
-              this.setState({ adNum: rand });
-              break;
-            }
-            rand = (parseInt(Math.random() * 10, 10) % 10) + 1;
-          }
-          // Load with ad
-          this.setState(prevState => ({
-            loading: false,
-            displayedProducts: prevState.displayedProducts.concat(
-              nextSlice,
-              adProduct
-            ),
-            adCount: prevState.adCount + 1
-          }));
-        } else {
-          // Load without ad
-          this.setState(prevState => ({
-            loading: false,
-            displayedProducts: prevState.displayedProducts.concat(nextSlice)
-          }));
-        }
-      }
+      this.setState(prevState => ({
+        loading: false,
+        displayedProducts: prevState.displayedProducts.concat(nextSlice)
+      }));
     }
     if (
       this.state.loading === true &&
       this.state.end === true &&
-      displayLength >= productLength
+      displayLength === productLength
     ) {
       this.setState({ loading: false });
     }
