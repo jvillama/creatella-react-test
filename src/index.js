@@ -30,7 +30,6 @@ class ProductsContainer extends Component {
     this.recurseFetch = this.recurseFetch.bind(this);
     this.getAdProduct = this.getAdProduct.bind(this);
   }
-  abortController = new window.AbortController();
   abortFetching() {
     // console.log("Now aborting");
     this.abortController.abort();
@@ -38,6 +37,7 @@ class ProductsContainer extends Component {
   componentDidMount() {
     // Invoked once the component is mounted to the DOM
     // Good for making AJAX requests
+    this.abortController = new window.AbortController();
     this.setState({ loading: true });
     this.startFetching();
     
