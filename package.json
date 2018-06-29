@@ -8,12 +8,9 @@
     "build-css": "node-sass-chokidar --include-path ./node_modules src/ -o src/",
     "watch-css": "npm run build-css && npm run build-css -- --watch --recursive",
     "start": "json-server server/index.js --routes server/routes.json --middlewares server/handle-delay.js server/handle-ads.js",
-    "dev": "node scripts/customized-config start",
-    "build": "node scripts/customized-config build",
-    "postbuild": "cp build/main.js ./public/ && cp build/main.css ./public/",
-    "rstart": "react-scripts start",
-    "rbuild": "react-scripts build",
-    "rtest": "react-scripts test --env=jsdom",
+    "dev": "webpack-dev-server --mode development",
+    "build:dev": "webpack --mode development",
+    "build": "webpack --mode production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Joshua Villamarzo",
@@ -21,17 +18,24 @@
   "dependencies": {
     "cool-ascii-faces": "^1.3.4",
     "json-server": "^0.9.6",
-    "node-sass-chokidar": "^1.3.0",
     "prop-types": "^15.6.2",
-    "proxyquire": "^2.0.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-md": "^1.4.1",
-    "rewire": "^4.0.1"
+    "react-md": "^1.4.1"
   },
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.11",
-    "react-scripts": "^1.1.4",
-    "style-loader": "^0.21.0"
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass-chokidar": "^1.3.0",
+    "style-loader": "^0.21.0",
+    "uglifyjs-webpack-plugin": "^1.2.7",
+    "webpack": "^4.14.0",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
   }
 }
