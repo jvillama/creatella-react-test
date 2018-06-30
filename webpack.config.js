@@ -1,5 +1,4 @@
-const path = require('path')
-const webpack = require('webpack');
+const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -14,8 +13,7 @@ const cssFilename = 'main.css';
 // const extractTextPluginOptions = {};
 
 const htmlWebpackPlugin = new HtmlWebPackPlugin({
-  template: './src/index.html',
-  filename: './index.html'
+  template: './src/index.html'
 });
 const extractTextPlugin = new ExtractTextPlugin({
   filename: cssFilename
