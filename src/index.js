@@ -43,6 +43,17 @@ class ProductsContainer extends Component {
     
     window.addEventListener("scroll", this.handleScroll);
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.loading !== this.state.loading && this.state.loading === true) {
+      // Keep checking products
+      let displayInterval = setInterval(() => {
+        this.displayNext()
+        if (this.state.loading === false) {
+          clearInterval(displayInterval);
+        }
+      }, 0);
+    }
+  }
   startFetching() {
     // Start fetching product asynchronously
     Promise.resolve()
@@ -153,12 +164,15 @@ class ProductsContainer extends Component {
     );
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {
-      if (this.state.end !== true) {
-        this.setState({ loading: true });
+      const displayLength = this.state.displayedProducts.length;
+      const productLength = this.state.products.length;
+      if (displayLength === productLength) {
+        if (this.state.end === true) {
+          this.setState({ loading: false });
+        } else {
+          this.setState({ loading: true })
+        }
       }
-      this.displayNext();
-    }
-    if (this.state.loading === true) {
       this.displayNext();
     }
   }
