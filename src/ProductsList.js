@@ -35,7 +35,7 @@ class ProductsList extends Component {
   }
   render() {
     return (
-      <GridList container="pictures" size={4} component="section">
+      <GridList container="pictures" size={4} component="section" key={this.props.randKey}>
         {this.props.products.map(product => {
           if (product.hasOwnProperty("media")) {
             return (

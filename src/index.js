@@ -18,7 +18,8 @@ class ProductsContainer extends Component {
       products: [],
       end: false,
       adNum: (parseInt(Math.random() * 10, 10) % 10) + 1,
-      adCount: 0
+      adCount: 0,
+      randKey: Math.floor(Math.random() * 1000)
     };
 
     this.handleScroll = this.handleScroll.bind(this);
@@ -190,7 +191,8 @@ class ProductsContainer extends Component {
         nextPage: 1,
         end: false,
         adNum: (parseInt(Math.random() * 10, 10) % 10) + 1,
-        adCount: 0
+        adCount: 0,
+        randKey: Math.floor(Math.random() * 1000)
       });
       this.startFetching();
     }
@@ -211,6 +213,7 @@ class ProductsContainer extends Component {
           <ProductsList
             products={this.state.displayedProducts}
             loading={this.state.loading}
+            randKey={this.state.randKey}
           />
         )}
         {this.state.end &&
