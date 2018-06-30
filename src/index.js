@@ -99,14 +99,16 @@ class ProductsContainer extends Component {
           }));
         } else {
           this.setState({ end: true });
+          return this.recurseFetch(page + 1, true);
         }
-        if (this.state.loading === true) {
+        if (page === 1) {
           this.displayNext();
         }
-        return this.recurseFetch(page + 1, this.state.end);
+        return this.recurseFetch(page + 1);
       })
       .catch(err => {
         if (err.name === "AbortError") {
+          // Ignore abort error from user
           // console.log(err.message);
         } else {
           console.error("Uh oh, an error!", err);
@@ -206,4 +208,4 @@ class ProductsContainer extends Component {
   }
 }
 
-ReactDOM.render(<ProductsContainer />, document.getElementById("root"));
+ReactDOM.render(<ProductsContainer />, document.getElementsByClassName("products")[0]);
