@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'react-modal';
 
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
+var styles = {
+  content: {
+    textAlign: 'center',
+    fontSize: '35px'
   }
 };
-
-Modal.setAppElement('.products')
 class Loading extends Component {
   constructor(props) {
     super(props);
@@ -45,13 +38,9 @@ class Loading extends Component {
   }
   render() {
     return (
-      <Modal
-        isOpen={true}
-        style={customStyles}
-        contentLabel="Loading Modal"
-      >
-        <h2>{this.state.text}</h2>        
-      </Modal>
+      <div style={styles.content}>
+        {this.state.text}
+      </div>
     )
   }
 }
