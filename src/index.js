@@ -45,14 +45,8 @@ class ProductsContainer extends Component {
     window.addEventListener("scroll", this.handleScroll);
   }
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.loading !== this.state.loading && this.state.loading === true) {
-      // Keep checking products
-      let displayInterval = setInterval(() => {
+    if (prevState.products !== this.state.products && this.state.loading === true) {
         this.displayNext()
-        if (this.state.loading === false) {
-          clearInterval(displayInterval);
-        }
-      }, 0);
     }
   }
   startFetching() {
@@ -128,6 +122,7 @@ class ProductsContainer extends Component {
       });
   }
   displayNext() {
+    // console.log('Display next...')
     const displayLength = this.state.displayedProducts.length;
     const productLength = this.state.products.length;
 
@@ -164,7 +159,7 @@ class ProductsContainer extends Component {
       html.offsetHeight
     );
     const windowBottom = windowHeight + window.pageYOffset;
-    if (windowBottom >= docHeight) {
+    if (windowBottom >= docHeight - 5) {
       const displayLength = this.state.displayedProducts.length;
       const productLength = this.state.products.length;
       if (displayLength === productLength) {
